@@ -1,10 +1,11 @@
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 public class App {
-    public static void main(String[] args) {
-        int boardWidth = 600;
-        int boardHeight = boardWidth;
+   public static int boardWidth = 600;
+   public static int boardHeight = boardWidth;
 
+    public static void main(String[] args) {
 
         JFrame frame = new JFrame("Snake");
         frame.setVisible(true);

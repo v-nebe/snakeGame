@@ -21,7 +21,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
     Timer gameloop;
     int velocityX;
     int velocityY;
-    boolean gameOver = false;
+    boolean gameOver;
 
     SnakeGame(int boardWidth, int boardHeight){
         this.boardWidth = boardWidth;
@@ -41,6 +41,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         velocityX = 0;
         velocityY = 0;
 
+        gameOver = false;
         gameloop = new Timer(100, this);
         gameloop.start();
     }
@@ -119,8 +120,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
             }
         }
 
-        if(shakeHead.x*tileSize < 0 || shakeHead.x*tileSize > boardWidth ||
-        shakeHead.y*tileSize < 0 || shakeHead.y*tileSize > boardHeight){
+        if(shakeHead.x*tileSize < 0 || shakeHead.x*tileSize >= boardWidth ||
+                shakeHead.y*tileSize < 0 || shakeHead.y*tileSize >= boardHeight){
             gameOver = true;
         }
     }
@@ -133,6 +134,22 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
             gameloop.stop();
         }
     }
+
+    public void restart(){
+
+        shakeHead = new Tile(5,5);
+        snakeBody.clear();
+
+        placeFood();
+
+        velocityX = 0;
+        velocityY = 0;
+
+        gameOver = false;
+        gameloop.start();
+        repaint();
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_W && velocityY != 1){
@@ -148,10 +165,10 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         } else if (e.getKeyCode() == KeyEvent.VK_A && velocityX != -1) {
             velocityX = -1;
             velocityY = 0;
+        }else if(e.getKeyCode() == KeyEvent.VK_SPACE && gameOver){
+            restart();
         }
-
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
